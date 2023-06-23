@@ -2,9 +2,12 @@ import 'dotenv/config';
 import express from 'express';
 import routes from './routes/index';
 import connectDB from './db/connect';
+import cors from 'cors';
 
 const app = express();
 connectDB();
+
+app.use(cors({ origin: 'http://localhost:3000' }));
 
 app.use('/api', routes);
 

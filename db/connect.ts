@@ -2,15 +2,31 @@ import mongoose from 'mongoose';
 
 async function connectDB() {
 
-    if (!process.env.MONGODB_URL) {
-        throw new Error("Falta  la variable de entorno MONGODB_URL");
+    if (!process.env.MONGO_URI) {
+        throw new Error("Falta  la variable de entorno MONGO_URI");
         
     }
     try {
 
-        await mongoose.connect(process.env.MONGODB_URL)
+        let options = {} as any;
+
+        if (process.env.MONGO_SSL === 'true') {
+
+        options = {
+            ssl         : process.env.MONGO_SSL === 'true',
+            sslCert     : process.env.MONGO_SSL_CERT,
+            sslKey      : process.env.MONGO_SSL_KEY,
+            sslCA       : process.env.MONGO_SSL_CA,
+            sslValidate : process.env.MONGO_SSL_VALIDATE === 'true'
+        };
+        
+        }
+
+        await mongoose.connect(process.env.MONGO_URI, options)
         console.log('Conexión exitosa a la base de datos');
         
+        
+
     } catch (error) {
 
         console.log('Hubo un error conectandose a la base de datos: ', error);
