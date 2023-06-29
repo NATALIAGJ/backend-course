@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import SaleModel from '../models/sale';
 
 async function connectDB() {
 
@@ -25,8 +26,6 @@ async function connectDB() {
         await mongoose.connect(process.env.MONGO_URI, options)
         console.log('Conexión exitosa a la base de datos');
         
-        
-
     } catch (error) {
 
         console.log('Hubo un error conectandose a la base de datos: ', error);
